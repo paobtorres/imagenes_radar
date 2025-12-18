@@ -5,27 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor de Imagenes Prediccion Unet</title>
     <style>
-        body { background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        img { max-width: 100%; max-height: 100vh; border: 2px solid #333; }
+        body { 
+            background-color: #000; 
+            display: flex; 
+            /* Cambio 1: Columna para que se apilen verticalmente */
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            /* Cambio 2: min-height para permitir scroll si las imagenes son muy altas */
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px 0; /* Un poco de espacio arriba y abajo */
+        }
+        img { 
+            max-width: 95%; /* Un poco de margen a los costados */
+            border: 2px solid #333; 
+            margin-bottom: 20px; /* Espacio entre cada imagen */
+        }
     </style>
 </head>
 <body>
-    <img id="imagenDinamica" src="figura_nowcast_contornos_mip.png" alt="Imagen en vivo">
+    <img id="imgPrincipal" src="figura_nowcast_contornos_mip.png" alt="Contornos MIP">
+    <img id="imgPred005" src="pred_nowcast_005.png" alt="Predicción 005">
+    <img id="imgPred010" src="pred_nowcast_010.png" alt="Predicción 010">
 
-    <img id="imagenDinamica" src="pred_nowcast_005.png" alt="Imagen en vivo">
-    <img id="imagenDinamica" src="pred_nowcast_010.png" alt="Imagen en vivo">
     <script>
-        // CONFIGURACIÓN: Tiempo de actualización en milisegundos (ej: 5000 = 5 segundos)
+        // CONFIGURACIÓN: Tiempo de actualización (900000 ms = 15 minutos)
         const tiempoActualizacion = 900000; 
 
         function actualizarImagen() {
-            const imagen = document.getElementById('imagenDinamica');
-            // Agregamos ?t=timestamp para engañar al navegador y que no use la caché
-            imagen.src = 'figura_nowcast_contornos_mip.png?t=' + new Date().getTime();
-       
-            imagen.src = 'pred_nowcast_005.png?t=' + new Date().getTime();
-            imagen.src = 'pred_nowcast_010.png?t=' + new Date().getTime();
-	}
+            // Obtenemos la marca de tiempo una sola vez para todas
+            const timestamp = new Date().getTime();
+
+            // Cambio 4: Actualizamos cada ID por separado
+            document.getElementById('imgPrincipal').src = 'figura_nowcast_contornos_mip.png?t=' + timestamp;
+            document.getElementById('imgPred005').src = 'pred_nowcast_005.png?t=' + timestamp;
+            document.getElementById('imgPred010').src = 'pred_nowcast_010.png?t=' + timestamp;
+            
+            console.log("Imágenes actualizadas: " + new Date().toLocaleTimeString());
+        }
 
         setInterval(actualizarImagen, tiempoActualizacion);
     </script>
