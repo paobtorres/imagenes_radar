@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Imagenes Prediccion Unet</title>
+    <style>
+        body { background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        img { max-width: 100%; max-height: 100vh; border: 2px solid #333; }
+    </style>
+</head>
+<body>
+    <img id="imagenDinamica" src="figura_nowcast_contornos_mip.png" alt="Imagen en vivo">
+
+    <img id="imagenDinamica" src="pred_nowcast_005.png" alt="Imagen en vivo">
+    <img id="imagenDinamica" src="pred_nowcast_010.png" alt="Imagen en vivo">
+    <script>
+        // CONFIGURACIÓN: Tiempo de actualización en milisegundos (ej: 5000 = 5 segundos)
+        const tiempoActualizacion = 900000; 
+
+        function actualizarImagen() {
+            const imagen = document.getElementById('imagenDinamica');
+            // Agregamos ?t=timestamp para engañar al navegador y que no use la caché
+            imagen.src = 'figura_nowcast_contornos_mip.png?t=' + new Date().getTime();
+       
+            imagen.src = 'pred_nowcast_005.png?t=' + new Date().getTime();
+            imagen.src = 'pred_nowcast_010.png?t=' + new Date().getTime();
+	}
+
+        setInterval(actualizarImagen, tiempoActualizacion);
+    </script>
+</body>
+</html>
